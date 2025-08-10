@@ -1,0 +1,47 @@
+{
+  "name": "subcoder-cipher-matrix",
+  "version": "1.0.0",
+  "description": "Subcoder Cipher Matrix",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win"
+  },
+  "author": "Subcoder",
+  "copyright": "Copyright © 2025 Flux Transfer Labs",
+  "devDependencies": {
+    "electron": "^25.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "build": {
+    "appId": "com.subcoder.cipher-matrix",
+    "productName": "Subcoder Cipher Matrix",
+    "icon": "PFP-ICON.ico",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "index.html",
+      "main.js",
+      "PFP.png",
+      "PFP-ICON.ico"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "PFP-ICON.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true
+    }
+  }
+}

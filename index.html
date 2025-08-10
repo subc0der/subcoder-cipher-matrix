@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subcoder Cipher Matrix</title>
+    <style>
+        /* Import a futuristic font */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', monospace;
+            background: #000000;
+            color: #00ffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-size: 16px; /* Increased base font size */
+        }
+
+        /* Overlay removed - using pure black background */
+
+        .container {
+            max-width: 95%; /* Increased from 1400px to use more screen space */
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header with app icon */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #00ffff;
+            box-shadow: 0 0 20px #00ffff;
+            margin-bottom: 20px;
+        }
+
+        .main-title {
+            font-size: 3.5rem; /* Increased from 3rem */
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, #00ffff, #ff6600);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px #00ffff;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #ff6600;
+            font-size: 1.4rem; /* Increased from 1.2rem */
+            letter-spacing: 2px;
+        }
+
+        /* Grid layout for cipher tools */
+        .cipher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(550px, 1fr)); /* Reduced min-width for better fit */
+            gap: 25px; /* Slightly reduced gap */
+            margin-top: 40px;
+        }
+
+        /* Individual cipher tool cards */
+        .cipher-card {
+            background: #000000;
+            border: 2px solid #00ffff;
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Remove the gradient background effect */
+
+        .cipher-card h2 {
+            color: #ff6600;
+            font-size: 1.7rem; /* Increased from 1.5rem */
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Input styling */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            color: #00ffff;
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1rem; /* Increased from 0.9rem */
+        }
+
+        .cyber-input, .cyber-textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ffff;
+            border-radius: 8px;
+            padding: 12px;
+            color: #00ffff;
+            font-family: 'Orbitron', monospace;
+            font-size: 16px; /* Increased from 14px */
+            transition: all 0.3s ease;
+        }
+
+        .cyber-input:focus, .cyber-textarea:focus {
+            outline: none;
+            border-color: #ff6600;
+            box-shadow: 0 0 15px #ff6600;
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .cyber-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Button styling */
+        .cyber-button {
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            color: #000;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 16px; /* Increased from 14px */
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .cyber-button:hover {
+            background: linear-gradient(45deg, #ff6600, #ff3300);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.4);
+        }
+
+        /* Output area */
+        .output-area {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ffff;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 80px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px; /* Increased from default */
+            color: #00ffff;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* Modal for error messages */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a0033, #000066);
+            margin: 15% auto;
+            padding: 30px;
+            border: 3px solid #ff6600;
+            border-radius: 15px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 0 30px #ff6600;
+        }
+
+        .modal h3 {
+            color: #ff6600;
+            font-size: 1.7rem; /* Increased from 1.5rem */
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .modal p {
+            color: #00ffff;
+            font-size: 1.1rem; /* Increased font size */
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .close-button {
+            background: linear-gradient(45deg, #ff6600, #ff3300);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .cipher-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Special styling for key input in Vigenere */
+        .key-input {
+            background: rgba(0, 0, 0, 0.9);
+            border-color: #ff6600;
+        }
+
+        /* Glowing effect for active elements */
+        .glow {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px #00ffff; }
+            50% { box-shadow: 0 0 20px #00ffff; }
+            100% { box-shadow: 0 0 5px #00ffff; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Remove background overlay div since we're using pure black background -->
+
+    <div class="container">
+        <!-- Header with app icon and title -->
+        <div class="header">
+            <img src="PFP.png" alt="Cipher Matrix Icon" class="app-icon">
+            <h1 class="main-title">Subcoder Cipher Matrix</h1>
+            <p class="subtitle">Advanced Encryption & Decryption System</p>
+        </div>
+
+        <!-- Grid of cipher tools -->
+        <div class="cipher-grid">
+            
+            <!-- Caesar Cipher Tool -->
+            <div class="cipher-card">
+                <h2>🔐 Caesar Cipher</h2>
+                <div class="input-group">
+                    <label class="input-label">Text Input:</label>
+                    <textarea class="cyber-textarea" id="caesarInput" placeholder="Enter text to encrypt/decrypt..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Shift Value (1-25):</label>
+                    <input type="number" class="cyber-input" id="caesarShift" min="1" max="25" value="3" placeholder="3">
+                </div>
+                <button class="cyber-button" onclick="caesarEncrypt()">Encrypt</button>
+                <button class="cyber-button" onclick="caesarDecrypt()">Decrypt</button>
+                <div class="input-group">
+                    <label class="input-label">Result:</label>
+                    <div class="output-area" id="caesarOutput"></div>
+                </div>
+            </div>
+
+            <!-- Vigenere Cipher Tool -->
+            <div class="cipher-card">
+                <h2>🗝️ Vigenère Cipher</h2>
+                <div class="input-group">
+                    <label class="input-label">Text Input:</label>
+                    <textarea class="cyber-textarea" id="vigenereInput" placeholder="Enter text to encrypt/decrypt..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Key (letters only):</label>
+                    <input type="text" class="cyber-input key-input" id="vigenereKey" placeholder="SECRET" pattern="[A-Za-z]+">
+                </div>
+                <button class="cyber-button" onclick="vigenereEncrypt()">Encrypt</button>
+                <button class="cyber-button" onclick="vigenereDecrypt()">Decrypt</button>
+                <div class="input-group">
+                    <label class="input-label">Result:</label>
+                    <div class="output-area" id="vigenereOutput"></div>
+                </div>
+            </div>
+
+            <!-- Binary Converter Tool -->
+            <div class="cipher-card">
+                <h2>⚡ Binary Converter</h2>
+                <div class="input-group">
+                    <label class="input-label">Text Input:</label>
+                    <textarea class="cyber-textarea" id="binaryTextInput" placeholder="Enter text to convert to binary..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Binary Input:</label>
+                    <textarea class="cyber-textarea" id="binaryInput" placeholder="Enter binary (0s and 1s) to convert to text..."></textarea>
+                </div>
+                <button class="cyber-button" onclick="textToBinary()">Text → Binary</button>
+                <button class="cyber-button" onclick="binaryToText()">Binary → Text</button>
+                <div class="input-group">
+                    <label class="input-label">Result:</label>
+                    <div class="output-area" id="binaryOutput"></div>
+                </div>
+            </div>
+
+            <!-- Hexadecimal Converter Tool -->
+            <div class="cipher-card">
+                <h2>🔢 Hex Converter</h2>
+                <div class="input-group">
+                    <label class="input-label">Text Input:</label>
+                    <textarea class="cyber-textarea" id="hexTextInput" placeholder="Enter text to convert to hexadecimal..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Hex Input:</label>
+                    <textarea class="cyber-textarea" id="hexInput" placeholder="Enter hexadecimal to convert to text..."></textarea>
+                </div>
+                <button class="cyber-button" onclick="textToHex()">Text → Hex</button>
+                <button class="cyber-button" onclick="hexToText()">Hex → Text</button>
+                <div class="input-group">
+                    <label class="input-label">Result:</label>
+                    <div class="output-area" id="hexOutput"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <h3>⚠️ Input Error</h3>
+            <p id="errorMessage"></p>
+            <button class="close-button" onclick="closeModal()">Understood</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== UTILITY FUNCTIONS =====
+
+        /**
+         * Shows an error modal with a custom message
+         * @param {string} message - The error message to display
+         */
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorModal').style.display = 'block';
+        }
+
+        /**
+         * Closes the error modal
+         */
+        function closeModal() {
+            document.getElementById('errorModal').style.display = 'none';
+        }
+
+        /**
+         * Validates if input contains only letters and spaces
+         * @param {string} text - Text to validate
+         * @returns {boolean} - True if valid, false otherwise
+         */
+        function isValidText(text) {
+            return /^[a-zA-Z\s]+$/.test(text) && text.trim().length > 0;
+        }
+
+        /**
+         * Validates if input contains only letters (no spaces)
+         * @param {string} text - Text to validate
+         * @returns {boolean} - True if valid, false otherwise
+         */
+        function isValidKey(text) {
+            return /^[a-zA-Z]+$/.test(text) && text.trim().length > 0;
+        }
+
+        /**
+         * Validates if input is valid binary (only 0s and 1s)
+         * @param {string} binary - Binary string to validate
+         * @returns {boolean} - True if valid, false otherwise
+         */
+        function isValidBinary(binary) {
+            return /^[01\s]+$/.test(binary) && binary.replace(/\s/g, '').length > 0;
+        }
+
+        /**
+         * Validates if input is valid hexadecimal
+         * @param {string} hex - Hex string to validate
+         * @returns {boolean} - True if valid, false otherwise
+         */
+        function isValidHex(hex) {
+            return /^[0-9A-Fa-f\s]+$/.test(hex) && hex.replace(/\s/g, '').length > 0;
+        }
+
+        // ===== CAESAR CIPHER FUNCTIONS =====
+
+        /**
+         * Encrypts text using Caesar cipher
+         */
+        function caesarEncrypt() {
+            const text = document.getElementById('caesarInput').value;
+            const shift = parseInt(document.getElementById('caesarShift').value);
+
+            // Validate inputs
+            if (!text.trim()) {
+                showError('Please enter some text to encrypt.');
+                return;
+            }
+
+            if (isNaN(shift) || shift < 1 || shift > 25) {
+                showError('Shift value must be a number between 1 and 25.');
+                return;
+            }
+
+            const result = applyCaesarCipher(text, shift);
+            document.getElementById('caesarOutput').textContent = result;
+        }
+
+        /**
+         * Decrypts text using Caesar cipher
+         */
+        function caesarDecrypt() {
+            const text = document.getElementById('caesarInput').value;
+            const shift = parseInt(document.getElementById('caesarShift').value);
+
+            // Validate inputs
+            if (!text.trim()) {
+                showError('Please enter some text to decrypt.');
+                return;
+            }
+
+            if (isNaN(shift) || shift < 1 || shift > 25) {
+                showError('Shift value must be a number between 1 and 25.');
+                return;
+            }
+
+            // For decryption, we use negative shift
+            const result = applyCaesarCipher(text, -shift);
+            document.getElementById('caesarOutput').textContent = result;
+        }
+
+        /**
+         * Applies Caesar cipher transformation
+         * @param {string} text - Text to transform
+         * @param {number} shift - Shift amount (positive for encrypt, negative for decrypt)
+         * @returns {string} - Transformed text
+         */
+        function applyCaesarCipher(text, shift) {
+            return text.split('').map(char => {
+                if (char.match(/[a-z]/i)) {
+                    const isUpperCase = char === char.toUpperCase();
+                    const baseCode = isUpperCase ? 65 : 97; // A=65, a=97
+                    const charCode = char.charCodeAt(0);
+                    
+                    // Calculate new position with proper wrapping
+                    let newPosition = ((charCode - baseCode + shift) % 26);
+                    if (newPosition < 0) newPosition += 26;
+                    
+                    return String.fromCharCode(baseCode + newPosition);
+                }
+                return char; // Keep non-alphabetic characters unchanged
+            }).join('');
+        }
+
+        // ===== VIGENÈRE CIPHER FUNCTIONS =====
+
+        /**
+         * Encrypts text using Vigenère cipher
+         */
+        function vigenereEncrypt() {
+            const text = document.getElementById('vigenereInput').value;
+            const key = document.getElementById('vigenereKey').value;
+
+            // Validate inputs
+            if (!text.trim()) {
+                showError('Please enter some text to encrypt.');
+                return;
+            }
+
+            if (!isValidKey(key)) {
+                showError('Key must contain only letters (A-Z, a-z) with no spaces or numbers.');
+                return;
+            }
+
+            const result = applyVigenereCipher(text, key, true);
+            document.getElementById('vigenereOutput').textContent = result;
+        }
+
+        /**
+         * Decrypts text using Vigenère cipher
+         */
+        function vigenereDecrypt() {
+            const text = document.getElementById('vigenereInput').value;
+            const key = document.getElementById('vigenereKey').value;
+
+            // Validate inputs
+            if (!text.trim()) {
+                showError('Please enter some text to decrypt.');
+                return;
+            }
+
+            if (!isValidKey(key)) {
+                showError('Key must contain only letters (A-Z, a-z) with no spaces or numbers.');
+                return;
+            }
+
+            const result = applyVigenereCipher(text, key, false);
+            document.getElementById('vigenereOutput').textContent = result;
+        }
+
+        /**
+         * Applies Vigenère cipher transformation
+         * @param {string} text - Text to transform
+         * @param {string} key - Encryption key
+         * @param {boolean} encrypt - True for encrypt, false for decrypt
+         * @returns {string} - Transformed text
+         */
+        function applyVigenereCipher(text, key, encrypt) {
+            const normalizedKey = key.toUpperCase();
+            let keyIndex = 0;
+            
+            return text.split('').map(char => {
+                if (char.match(/[a-z]/i)) {
+                    const isUpperCase = char === char.toUpperCase();
+                    const baseCode = isUpperCase ? 65 : 97;
+                    const charCode = char.charCodeAt(0);
+                    
+                    // Get the shift amount from the key
+                    const keyChar = normalizedKey[keyIndex % normalizedKey.length];
+                    const keyShift = keyChar.charCodeAt(0) - 65; // A=0, B=1, etc.
+                    keyIndex++;
+                    
+                    // Apply shift (positive for encrypt, negative for decrypt)
+                    const shift = encrypt ? keyShift : -keyShift;
+                    let newPosition = ((charCode - baseCode + shift) % 26);
+                    if (newPosition < 0) newPosition += 26;
+                    
+                    return String.fromCharCode(baseCode + newPosition);
+                }
+                return char; // Keep non-alphabetic characters unchanged
+            }).join('');
+        }
+
+        // ===== BINARY CONVERSION FUNCTIONS =====
+
+        /**
+         * Converts text to binary
+         */
+        function textToBinary() {
+            const text = document.getElementById('binaryTextInput').value;
+
+            if (!text.trim()) {
+                showError('Please enter some text to convert to binary.');
+                return;
+            }
+
+            // Convert each character to 8-bit binary
+            const binaryResult = text.split('').map(char => {
+                return char.charCodeAt(0).toString(2).padStart(8, '0');
+            }).join(' ');
+
+            document.getElementById('binaryOutput').textContent = binaryResult;
+        }
+
+        /**
+         * Converts binary to text
+         */
+        function binaryToText() {
+            const binary = document.getElementById('binaryInput').value;
+
+            if (!binary.trim()) {
+                showError('Please enter binary data to convert to text.');
+                return;
+            }
+
+            if (!isValidBinary(binary)) {
+                showError('Binary input must contain only 0s and 1s. Please check your input.');
+                return;
+            }
+
+            try {
+                // Remove spaces and split into 8-bit chunks
+                const cleanBinary = binary.replace(/\s/g, '');
+                
+                if (cleanBinary.length % 8 !== 0) {
+                    showError('Binary input must be in 8-bit chunks. Your input has ' + cleanBinary.length + ' bits.');
+                    return;
+                }
+
+                const textResult = cleanBinary.match(/.{8}/g).map(byte => {
+                    const charCode = parseInt(byte, 2);
+                    if (charCode < 0 || charCode > 127) {
+                        throw new Error('Invalid character code: ' + charCode);
+                    }
+                    return String.fromCharCode(charCode);
+                }).join('');
+
+                document.getElementById('binaryOutput').textContent = textResult;
+            } catch (error) {
+                showError('Invalid binary format. Please ensure you have valid 8-bit binary groups.');
+            }
+        }
+
+        // ===== HEXADECIMAL CONVERSION FUNCTIONS =====
+
+        /**
+         * Converts text to hexadecimal
+         */
+        function textToHex() {
+            const text = document.getElementById('hexTextInput').value;
+
+            if (!text.trim()) {
+                showError('Please enter some text to convert to hexadecimal.');
+                return;
+            }
+
+            // Convert each character to hexadecimal
+            const hexResult = text.split('').map(char => {
+                return char.charCodeAt(0).toString(16).toUpperCase().padStart(2, '0');
+            }).join(' ');
+
+            document.getElementById('hexOutput').textContent = hexResult;
+        }
+
+        /**
+         * Converts hexadecimal to text
+         */
+        function hexToText() {
+            const hex = document.getElementById('hexInput').value;
+
+            if (!hex.trim()) {
+                showError('Please enter hexadecimal data to convert to text.');
+                return;
+            }
+
+            if (!isValidHex(hex)) {
+                showError('Hexadecimal input must contain only numbers (0-9) and letters (A-F). Please check your input.');
+                return;
+            }
+
+            try {
+                // Remove spaces and validate length
+                const cleanHex = hex.replace(/\s/g, '');
+                
+                if (cleanHex.length % 2 !== 0) {
+                    showError('Hexadecimal input must have an even number of characters. Your input has ' + cleanHex.length + ' characters.');
+                    return;
+                }
+
+                const textResult = cleanHex.match(/.{2}/g).map(byte => {
+                    const charCode = parseInt(byte, 16);
+                    if (charCode < 0 || charCode > 127) {
+                        throw new Error('Invalid character code: ' + charCode);
+                    }
+                    return String.fromCharCode(charCode);
+                }).join('');
+
+                document.getElementById('hexOutput').textContent = textResult;
+            } catch (error) {
+                showError('Invalid hexadecimal format. Please ensure you have valid 2-digit hex pairs.');
+            }
+        }
+
+        // ===== EVENT LISTENERS =====
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('errorModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Add Enter key support for inputs
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') {
+                event.preventDefault();
+            }
+        });
+
+        // Add glow effect to focused elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.cyber-input, .cyber-textarea');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.classList.add('glow');
+                });
+                input.addEventListener('blur', function() {
+                    this.classList.remove('glow');
+                });
+            });
+        });
+
+        // Console welcome message for developers
+        console.log('%c🔐 SUBCODER CIPHER MATRIX LOADED 🔐', 'color: #00ffff; font-size: 20px; font-weight: bold;');
+        console.log('%cWelcome to the Subcoder Cipher Matrix! All encryption systems online.', 'color: #ff6600; font-size: 14px;');
+    </script>
+</body>
+</html>
