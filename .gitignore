@@ -1,0 +1,32 @@
+# Development files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+/subc0der
+
+# IDE files
+.vscode/settings.json
+.vscode/launch.json
+*.swp
+*.swo
+
+# Node modules
+node_modules/
+npm-debug.log*
+
+# Build outputs
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+
+# Testing outputs
+coverage/
+test-results/
+
+# Package files
+*.zip
+*.tar.gz 
