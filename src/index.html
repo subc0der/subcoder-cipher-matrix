@@ -385,7 +385,26 @@
         </div>
     </div>
 
+    <!-- Load shared cipher modules -->
+    <script src="ciphers/atbash.js"></script>
+
     <script>
+        // ===== CONSTANTS =====
+        
+        /**
+         * Application-wide constants for consistent behavior
+         */
+        const APP_CONSTANTS = {
+            MAX_INPUT_LENGTH: 10000,     // Maximum input length for all ciphers
+            BINARY_CHUNK_SIZE: 8,        // Binary processing chunk size
+            HEX_BYTE_SIZE: 2,           // Hexadecimal byte size
+            UPPERCASE_A_CODE: 65,       // ASCII code for 'A'
+            UPPERCASE_Z_CODE: 90,       // ASCII code for 'Z'
+            LOWERCASE_A_CODE: 97,       // ASCII code for 'a'
+            LOWERCASE_Z_CODE: 122,      // ASCII code for 'z'
+            ALPHABET_LENGTH: 26         // English alphabet length
+        };
+
         // ===== UTILITY FUNCTIONS =====
 
         /**
@@ -755,14 +774,13 @@
             }
 
             // Check for extremely long input that might cause performance issues
-            const MAX_INPUT_LENGTH = 10000;
-            if (text.length > MAX_INPUT_LENGTH) {
-                showError(`Input exceeds maximum length of ${MAX_INPUT_LENGTH} characters. Current length: ${text.length}`);
+            if (text.length > APP_CONSTANTS.MAX_INPUT_LENGTH) {
+                showError(`Input exceeds maximum length of ${APP_CONSTANTS.MAX_INPUT_LENGTH} characters. Current length: ${text.length}`);
                 return;
             }
 
             try {
-                const result = applyAtbashCipher(text);
+                const result = window.AtbashCipher.applyAtbashCipher(text);
                 document.getElementById('atbashOutput').textContent = result;
                 
                 // Log transformation details for educational purposes (development only)
@@ -780,53 +798,9 @@
             }
         }
 
-        /**
-         * Applies the Atbash cipher transformation to the given text
-         * 
-         * Algorithm explanation:
-         * - For each alphabetic character, find its position from the start of the alphabet
-         * - Replace it with the character at the same position from the end of the alphabet
-         * - Preserve case (uppercase/lowercase) and non-alphabetic characters
-         * 
-         * @param {string} text - The text to transform
-         * @returns {string} - The transformed text
-         */
-        function applyAtbashCipher(text) {
-            return text.split('').map(char => {
-                // Check if the character is a letter
-                if (char.match(/[a-z]/i)) {
-                    const charCode = char.charCodeAt(0);
-                    
-                    if (char >= 'A' && char <= 'Z') {
-                        // Uppercase letter transformation
-                        // A (65) becomes Z (90), B (66) becomes Y (89), etc.
-                        // Formula: 90 - (charCode - 65) = 155 - charCode
-                        return String.fromCharCode(155 - charCode);
-                    } else if (char >= 'a' && char <= 'z') {
-                        // Lowercase letter transformation
-                        // a (97) becomes z (122), b (98) becomes y (121), etc.
-                        // Formula: 122 - (charCode - 97) = 219 - charCode
-                        return String.fromCharCode(219 - charCode);
-                    }
-                }
-                
-                // Preserve non-alphabetic characters (spaces, punctuation, numbers, etc.)
-                return char;
-            }).join('');
-        }
+        // Note: Atbash cipher implementation is now in shared module: src/ciphers/atbash.js
 
-        /**
-         * Additional validation function specifically for Atbash cipher
-         * Can be used to check if text contains valid characters for encryption
-         * 
-         * @param {string} text - Text to validate
-         * @returns {boolean} - True if text is valid for Atbash transformation
-         */
-        function isValidAtbashInput(text) {
-            // Atbash can handle any text, but we might want to warn about certain inputs
-            // For now, all non-empty strings are valid
-            return text && text.length > 0;
-        }
+        // Note: Atbash input validation is now in shared module: window.AtbashCipher.isValidAtbashInput()
 
         /**
          * Demonstrates the Atbash cipher with example text
@@ -848,7 +822,7 @@
 
             console.log('[Atbash Cipher Examples]');
             examples.forEach(example => {
-                const result = applyAtbashCipher(example.input);
+                const result = window.AtbashCipher.applyAtbashCipher(example.input);
                 const passed = result === example.expected;
                 console.log(
                     `Input: "${example.input}" → Output: "${result}" ${passed ? '✓' : '✗'}`

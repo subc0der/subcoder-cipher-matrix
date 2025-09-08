@@ -7,22 +7,12 @@
     <h1>Atbash Cipher Test Results</h1>
     <div id="results"></div>
     
+    <!-- Load shared Atbash cipher module -->
+    <script src="src/ciphers/atbash.js"></script>
+    
     <script>
-        // Copy of the Atbash cipher function from your main file
-        function applyAtbashCipher(text) {
-            return text.split('').map(char => {
-                if (char.match(/[a-z]/i)) {
-                    const charCode = char.charCodeAt(0);
-                    
-                    if (char >= 'A' && char <= 'Z') {
-                        return String.fromCharCode(155 - charCode);
-                    } else if (char >= 'a' && char <= 'z') {
-                        return String.fromCharCode(219 - charCode);
-                    }
-                }
-                return char;
-            }).join('');
-        }
+        // Use shared Atbash cipher implementation to eliminate code duplication
+        const { applyAtbashCipher } = window.AtbashCipher;
 
         // Test cases
         const testCases = [

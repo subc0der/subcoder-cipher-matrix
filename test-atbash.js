@@ -3,23 +3,8 @@
  * Run with: node test-atbash.js
  */
 
-// Atbash cipher implementation
-function applyAtbashCipher(text) {
-    return text.split('').map(char => {
-        if (char.match(/[a-z]/i)) {
-            const charCode = char.charCodeAt(0);
-            
-            if (char >= 'A' && char <= 'Z') {
-                // Uppercase: 155 - charCode
-                return String.fromCharCode(155 - charCode);
-            } else if (char >= 'a' && char <= 'z') {
-                // Lowercase: 219 - charCode
-                return String.fromCharCode(219 - charCode);
-            }
-        }
-        return char;
-    }).join('');
-}
+// Import Atbash cipher implementation from shared module
+const { applyAtbashCipher } = require('./src/ciphers/atbash.js');
 
 // Color codes for terminal output
 const colors = {

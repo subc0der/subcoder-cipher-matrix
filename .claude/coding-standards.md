@@ -519,6 +519,44 @@ console.log('Styled message');
 </style>
 ```
 
+### Warning: Magic Numbers Should Be Named Constants
+```javascript
+// ❌ Copilot will flag - Magic numbers
+if (text.length > 10000) {
+  showError('Text too long');
+}
+
+// ✅ Fixed - Named constants
+const APP_CONSTANTS = {
+  MAX_INPUT_LENGTH: 10000,
+  BINARY_CHUNK_SIZE: 8
+};
+
+if (text.length > APP_CONSTANTS.MAX_INPUT_LENGTH) {
+  showError('Text too long');
+}
+```
+
+### Warning: Code Duplication Should Be Eliminated
+```javascript
+// ❌ Copilot will flag - Duplicate implementations
+// File 1: main.js
+function encrypt(text) { /* implementation */ }
+
+// File 2: test.js  
+function encrypt(text) { /* same implementation */ }
+
+// ✅ Fixed - Shared module
+// shared/cipher.js
+export function encrypt(text) { /* implementation */ }
+
+// main.js
+import { encrypt } from './shared/cipher.js';
+
+// test.js
+const { encrypt } = require('./shared/cipher.js');
+```
+
 ## Git Commit Standards
 ```
 feat: Add new cipher algorithm
