@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Read(//c/Users/mkhal/Documents/MyApps/**)",
+      "Read(//c/Users/mkhal/Documents/**)",
+      "Bash(node:*)",
+      "Bash(npm install)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

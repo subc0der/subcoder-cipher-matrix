@@ -337,6 +337,26 @@
                 </div>
             </div>
 
+            <!-- Atbash Cipher Tool -->
+            <div class="cipher-card">
+                <h2>🔄 Atbash Cipher</h2>
+                <div class="input-group">
+                    <label class="input-label">Text Input:</label>
+                    <textarea class="cyber-textarea" id="atbashInput" placeholder="Enter text to encode/decode..."></textarea>
+                </div>
+                <button class="cyber-button" onclick="atbashTransform()">Encode/Decode</button>
+                <div class="input-group">
+                    <label class="input-label">Result:</label>
+                    <div class="output-area" id="atbashOutput"></div>
+                </div>
+                <div style="margin-top: 15px; padding: 10px; background: rgba(0, 255, 255, 0.1); border-radius: 8px; border: 1px solid rgba(0, 255, 255, 0.3);">
+                    <p style="color: #00ffff; font-size: 12px; margin: 0; line-height: 1.5;">
+                        <strong>Note:</strong> Atbash is a monoalphabetic substitution cipher where A↔Z, B↔Y, C↔X, etc. 
+                        Encoding and decoding are the same operation!
+                    </p>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -671,6 +691,134 @@
             } catch (error) {
                 showError('Invalid hexadecimal format. Please ensure you have valid 2-digit hex pairs.');
             }
+        }
+
+        // ===== ATBASH CIPHER FUNCTIONS =====
+
+        /**
+         * The Atbash cipher is a monoalphabetic substitution cipher that was originally used
+         * with the Hebrew alphabet. In the English version, it substitutes each letter with
+         * its mirror letter in the alphabet:
+         * 
+         * Standard Alphabet: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+         * Atbash Alphabet:   Z Y X W V U T S R Q P O N M L K J I H G F E D C B A
+         * 
+         * Mathematical formula:
+         * - For uppercase: encrypted_char = 90 - (char_code - 65) = 155 - char_code
+         * - For lowercase: encrypted_char = 122 - (char_code - 97) = 219 - char_code
+         * 
+         * Key properties:
+         * 1. It's a reciprocal cipher (encoding = decoding)
+         * 2. Applying Atbash twice returns the original text
+         * 3. Non-alphabetic characters remain unchanged
+         * 
+         * @returns {void}
+         */
+        function atbashTransform() {
+            const text = document.getElementById('atbashInput').value;
+
+            // Comprehensive input validation
+            if (!text) {
+                showError('Please enter some text to encode/decode.');
+                return;
+            }
+
+            if (!text.trim()) {
+                showError('Input cannot be only whitespace. Please enter valid text.');
+                return;
+            }
+
+            // Check for extremely long input that might cause performance issues
+            const MAX_INPUT_LENGTH = 10000;
+            if (text.length > MAX_INPUT_LENGTH) {
+                showError(`Input exceeds maximum length of ${MAX_INPUT_LENGTH} characters. Current length: ${text.length}`);
+                return;
+            }
+
+            try {
+                const result = applyAtbashCipher(text);
+                document.getElementById('atbashOutput').textContent = result;
+                
+                // Log transformation details for educational purposes (visible in console)
+                console.log('%c[Atbash Cipher Transformation]', 'color: #00ffff; font-weight: bold;');
+                console.log('Original text:', text);
+                console.log('Transformed text:', result);
+                console.log('Transformation is reversible - apply again to get original text back!');
+            } catch (error) {
+                showError('An error occurred during transformation. Please check your input and try again.');
+                console.error('Atbash transformation error:', error);
+            }
+        }
+
+        /**
+         * Applies the Atbash cipher transformation to the given text
+         * 
+         * Algorithm explanation:
+         * - For each alphabetic character, find its position from the start of the alphabet
+         * - Replace it with the character at the same position from the end of the alphabet
+         * - Preserve case (uppercase/lowercase) and non-alphabetic characters
+         * 
+         * @param {string} text - The text to transform
+         * @returns {string} - The transformed text
+         */
+        function applyAtbashCipher(text) {
+            return text.split('').map(char => {
+                // Check if the character is a letter
+                if (char.match(/[a-z]/i)) {
+                    const charCode = char.charCodeAt(0);
+                    
+                    if (char >= 'A' && char <= 'Z') {
+                        // Uppercase letter transformation
+                        // A (65) becomes Z (90), B (66) becomes Y (89), etc.
+                        // Formula: 90 - (charCode - 65) = 155 - charCode
+                        return String.fromCharCode(155 - charCode);
+                    } else if (char >= 'a' && char <= 'z') {
+                        // Lowercase letter transformation
+                        // a (97) becomes z (122), b (98) becomes y (121), etc.
+                        // Formula: 122 - (charCode - 97) = 219 - charCode
+                        return String.fromCharCode(219 - charCode);
+                    }
+                }
+                
+                // Preserve non-alphabetic characters (spaces, punctuation, numbers, etc.)
+                return char;
+            }).join('');
+        }
+
+        /**
+         * Additional validation function specifically for Atbash cipher
+         * Can be used to check if text contains valid characters for encryption
+         * 
+         * @param {string} text - Text to validate
+         * @returns {boolean} - True if text is valid for Atbash transformation
+         */
+        function isValidAtbashInput(text) {
+            // Atbash can handle any text, but we might want to warn about certain inputs
+            // For now, all non-empty strings are valid
+            return text && text.length > 0;
+        }
+
+        /**
+         * Demonstrates the Atbash cipher with example text
+         * Useful for testing and educational purposes
+         */
+        function demonstrateAtbash() {
+            const examples = [
+                { input: 'HELLO WORLD', expected: 'SVOOL DLIOW' },
+                { input: 'ABC xyz', expected: 'ZYX cba' },
+                { input: 'The quick brown fox', expected: 'Gsv jfrxp yildm ulc' },
+                { input: '123 Test!', expected: '123 Gvhg!' }
+            ];
+
+            console.log('%c[Atbash Cipher Examples]', 'color: #ff6600; font-weight: bold;');
+            examples.forEach(example => {
+                const result = applyAtbashCipher(example.input);
+                const passed = result === example.expected;
+                console.log(
+                    `Input: "${example.input}" → Output: "${result}" ${passed ? '✓' : '✗'}`,
+                    passed ? 'color: #00ff00' : 'color: #ff0000'
+                );
+            });
         }
 
         // ===== EVENT LISTENERS =====

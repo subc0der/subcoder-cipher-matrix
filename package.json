@@ -5,8 +5,12 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "dev": "electron . --enable-logging",
+    "test": "npm run dev",
     "build": "electron-builder",
-    "build-win": "electron-builder --win"
+    "build-win": "electron-builder --win",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": "Subcoder",
   "copyright": "Copyright © 2025 Flux Transfer Labs",
@@ -22,7 +26,7 @@
       "output": "dist"
     },
     "files": [
-      "index.html",
+      "src/**/*",
       "main.js",
       "PFP.png",
       "PFP-ICON.ico"

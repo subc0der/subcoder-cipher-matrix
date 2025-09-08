@@ -25,8 +25,8 @@ function createWindow() {
         autoHideMenuBar: false // Show menu bar
     });
 
-    // Load the index.html file
-    mainWindow.loadFile('index.html');
+    // Load the index.html file from src directory
+    mainWindow.loadFile(path.join(__dirname, 'src', 'index.html'));
 
     // Show window when ready
     mainWindow.once('ready-to-show', () => {
@@ -147,7 +147,7 @@ function createWindow() {
                             type: 'info',
                             title: 'About',
                             message: 'Subcoder Cipher Matrix',
-                            detail: 'Version 1.0.0\nAdvanced Encryption & Decryption Tool\n\nSupports Caesar Cipher, Vigenère Cipher, Binary, and Hex conversion.'
+                            detail: 'Version 1.0.0\nAdvanced Encryption & Decryption Tool\n\nSupports Caesar Cipher, Vigenère Cipher, Atbash Cipher, Binary, and Hex conversion.'
                         });
                     }
                 }
