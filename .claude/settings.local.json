@@ -6,7 +6,12 @@
       "Read(//c/Users/mkhal/Documents/**)",
       "Bash(node:*)",
       "Bash(npm install)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git push:*)",
+      "Bash(gh api:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

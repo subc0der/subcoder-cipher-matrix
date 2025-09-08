@@ -474,6 +474,25 @@ useEffect(() => {
 }, [value]);
 ```
 
+### Warning: Console Statements in Production Code
+```typescript
+// ❌ Copilot will flag - Console logs in production
+console.log('Debug information');
+console.error('Error details');
+
+// ✅ Fixed - Development-only logging
+function isDevelopmentMode() {
+  return window.location.hostname === 'localhost' || 
+         window.location.hostname === '127.0.0.1' || 
+         window.location.protocol === 'file:';
+}
+
+if (isDevelopmentMode()) {
+  console.log('Debug information');
+  console.error('Error details');
+}
+```
+
 ## Git Commit Standards
 ```
 feat: Add new cipher algorithm

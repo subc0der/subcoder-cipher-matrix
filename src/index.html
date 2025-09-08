@@ -373,6 +373,16 @@
         // ===== UTILITY FUNCTIONS =====
 
         /**
+         * Checks if the application is running in development environment
+         * @returns {boolean} - True if in development mode (localhost, file protocol, etc.)
+         */
+        function isDevelopmentMode() {
+            return window.location.hostname === 'localhost' || 
+                   window.location.hostname === '127.0.0.1' || 
+                   window.location.protocol === 'file:';
+        }
+
+        /**
          * Shows an error modal with a custom message
          * @param {string} message - The error message to display
          */
@@ -739,14 +749,18 @@
                 const result = applyAtbashCipher(text);
                 document.getElementById('atbashOutput').textContent = result;
                 
-                // Log transformation details for educational purposes (visible in console)
-                console.log('%c[Atbash Cipher Transformation]', 'color: #00ffff; font-weight: bold;');
-                console.log('Original text:', text);
-                console.log('Transformed text:', result);
-                console.log('Transformation is reversible - apply again to get original text back!');
+                // Log transformation details for educational purposes (development only)
+                if (isDevelopmentMode()) {
+                    console.log('%c[Atbash Cipher Transformation]', 'color: #00ffff; font-weight: bold;');
+                    console.log('Original text:', text);
+                    console.log('Transformed text:', result);
+                    console.log('Transformation is reversible - apply again to get original text back!');
+                }
             } catch (error) {
                 showError('An error occurred during transformation. Please check your input and try again.');
-                console.error('Atbash transformation error:', error);
+                if (isDevelopmentMode()) {
+                    console.error('Atbash transformation error:', error);
+                }
             }
         }
 
@@ -800,9 +814,15 @@
 
         /**
          * Demonstrates the Atbash cipher with example text
-         * Useful for testing and educational purposes
+         * Useful for testing and educational purposes (development only)
+         * @private - Only available in development environment
          */
         function demonstrateAtbash() {
+            // Only run in development environment
+            if (!isDevelopmentMode()) {
+                return;
+            }
+            
             const examples = [
                 { input: 'HELLO WORLD', expected: 'SVOOL DLIOW' },
                 { input: 'ABC xyz', expected: 'ZYX cba' },
@@ -851,9 +871,11 @@
             });
         });
 
-        // Console welcome message for developers
-        console.log('%c🔐 SUBCODER CIPHER MATRIX LOADED 🔐', 'color: #00ffff; font-size: 20px; font-weight: bold;');
-        console.log('%cWelcome to the Subcoder Cipher Matrix! All encryption systems online.', 'color: #ff6600; font-size: 14px;');
+        // Console welcome message for developers (development only)
+        if (isDevelopmentMode()) {
+            console.log('%c🔐 SUBCODER CIPHER MATRIX LOADED 🔐', 'color: #00ffff; font-size: 20px; font-weight: bold;');
+            console.log('%cWelcome to the Subcoder Cipher Matrix! All encryption systems online.', 'color: #ff6600; font-size: 14px;');
+        }
     </script>
 </body>
 </html>
