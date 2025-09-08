@@ -493,6 +493,32 @@ if (isDevelopmentMode()) {
 }
 ```
 
+### Warning: Console Styling Not Supported in All Environments
+```typescript
+// ❌ Copilot will flag - %c styling not universally supported
+console.log('%cStyled message', 'color: #ff0000; font-weight: bold;');
+
+// ✅ Fixed - Simple console logging
+console.log('Styled message');
+```
+
+### Warning: Inline Styles Should Be Extracted to CSS
+```html
+<!-- ❌ Copilot will flag - Inline styles -->
+<div style="color: #fff; padding: 10px; margin: 5px;">Content</div>
+
+<!-- ✅ Fixed - CSS classes -->
+<div class="info-box">Content</div>
+
+<style>
+.info-box {
+  color: #fff;
+  padding: 10px;
+  margin: 5px;
+}
+</style>
+```
+
 ## Git Commit Standards
 ```
 feat: Add new cipher algorithm

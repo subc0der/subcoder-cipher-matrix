@@ -245,6 +245,22 @@
             50% { box-shadow: 0 0 20px #00ffff; }
             100% { box-shadow: 0 0 5px #00ffff; }
         }
+
+        /* Cipher information box styling */
+        .cipher-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .cipher-info p {
+            color: #00ffff;
+            font-size: 12px;
+            margin: 0;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -349,8 +365,8 @@
                     <label class="input-label">Result:</label>
                     <div class="output-area" id="atbashOutput"></div>
                 </div>
-                <div style="margin-top: 15px; padding: 10px; background: rgba(0, 255, 255, 0.1); border-radius: 8px; border: 1px solid rgba(0, 255, 255, 0.3);">
-                    <p style="color: #00ffff; font-size: 12px; margin: 0; line-height: 1.5;">
+                <div class="cipher-info">
+                    <p>
                         <strong>Note:</strong> Atbash is a monoalphabetic substitution cipher where A↔Z, B↔Y, C↔X, etc. 
                         Encoding and decoding are the same operation!
                     </p>
@@ -751,7 +767,7 @@
                 
                 // Log transformation details for educational purposes (development only)
                 if (isDevelopmentMode()) {
-                    console.log('%c[Atbash Cipher Transformation]', 'color: #00ffff; font-weight: bold;');
+                    console.log('[Atbash Cipher Transformation]');
                     console.log('Original text:', text);
                     console.log('Transformed text:', result);
                     console.log('Transformation is reversible - apply again to get original text back!');
@@ -830,13 +846,12 @@
                 { input: '123 Test!', expected: '123 Gvhg!' }
             ];
 
-            console.log('%c[Atbash Cipher Examples]', 'color: #ff6600; font-weight: bold;');
+            console.log('[Atbash Cipher Examples]');
             examples.forEach(example => {
                 const result = applyAtbashCipher(example.input);
                 const passed = result === example.expected;
                 console.log(
-                    `Input: "${example.input}" → Output: "${result}" ${passed ? '✓' : '✗'}`,
-                    passed ? 'color: #00ff00' : 'color: #ff0000'
+                    `Input: "${example.input}" → Output: "${result}" ${passed ? '✓' : '✗'}`
                 );
             });
         }
@@ -873,8 +888,8 @@
 
         // Console welcome message for developers (development only)
         if (isDevelopmentMode()) {
-            console.log('%c🔐 SUBCODER CIPHER MATRIX LOADED 🔐', 'color: #00ffff; font-size: 20px; font-weight: bold;');
-            console.log('%cWelcome to the Subcoder Cipher Matrix! All encryption systems online.', 'color: #ff6600; font-size: 14px;');
+            console.log('🔐 SUBCODER CIPHER MATRIX LOADED 🔐');
+            console.log('Welcome to the Subcoder Cipher Matrix! All encryption systems online.');
         }
     </script>
 </body>
