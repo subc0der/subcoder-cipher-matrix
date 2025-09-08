@@ -475,8 +475,19 @@
          * Encrypts text using Caesar cipher
          */
         function caesarEncrypt() {
-            const text = document.getElementById('caesarInput').value;
-            const shift = parseInt(document.getElementById('caesarShift').value);
+            // Defensive programming: Ensure DOM elements exist
+            const inputElement = document.getElementById('caesarInput');
+            const shiftElement = document.getElementById('caesarShift');
+            
+            if (!inputElement || !shiftElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Caesar cipher input elements not found');
+                }
+                return;
+            }
+            
+            const text = inputElement.value;
+            const shift = parseInt(shiftElement.value);
 
             // Validate inputs
             if (!text.trim()) {
@@ -490,15 +501,36 @@
             }
 
             const result = applyCaesarCipher(text, shift);
-            document.getElementById('caesarOutput').textContent = result;
+            
+            // Defensive programming: Ensure output element exists
+            const outputElement = document.getElementById('caesarOutput');
+            if (!outputElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Caesar cipher output element not found');
+                }
+                return;
+            }
+            
+            outputElement.textContent = result;
         }
 
         /**
          * Decrypts text using Caesar cipher
          */
         function caesarDecrypt() {
-            const text = document.getElementById('caesarInput').value;
-            const shift = parseInt(document.getElementById('caesarShift').value);
+            // Defensive programming: Ensure DOM elements exist
+            const inputElement = document.getElementById('caesarInput');
+            const shiftElement = document.getElementById('caesarShift');
+            
+            if (!inputElement || !shiftElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Caesar cipher input elements not found');
+                }
+                return;
+            }
+            
+            const text = inputElement.value;
+            const shift = parseInt(shiftElement.value);
 
             // Validate inputs
             if (!text.trim()) {
@@ -513,7 +545,17 @@
 
             // For decryption, we use negative shift
             const result = applyCaesarCipher(text, -shift);
-            document.getElementById('caesarOutput').textContent = result;
+            
+            // Defensive programming: Ensure output element exists
+            const outputElement = document.getElementById('caesarOutput');
+            if (!outputElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Caesar cipher output element not found');
+                }
+                return;
+            }
+            
+            outputElement.textContent = result;
         }
 
         /**
@@ -545,8 +587,19 @@
          * Encrypts text using Vigenère cipher
          */
         function vigenereEncrypt() {
-            const text = document.getElementById('vigenereInput').value;
-            const key = document.getElementById('vigenereKey').value;
+            // Defensive programming: Ensure DOM elements exist
+            const inputElement = document.getElementById('vigenereInput');
+            const keyElement = document.getElementById('vigenereKey');
+            
+            if (!inputElement || !keyElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Vigenère cipher input elements not found');
+                }
+                return;
+            }
+            
+            const text = inputElement.value;
+            const key = keyElement.value;
 
             // Validate inputs
             if (!text.trim()) {
@@ -560,15 +613,36 @@
             }
 
             const result = applyVigenereCipher(text, key, true);
-            document.getElementById('vigenereOutput').textContent = result;
+            
+            // Defensive programming: Ensure output element exists
+            const outputElement = document.getElementById('vigenereOutput');
+            if (!outputElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Vigenère cipher output element not found');
+                }
+                return;
+            }
+            
+            outputElement.textContent = result;
         }
 
         /**
          * Decrypts text using Vigenère cipher
          */
         function vigenereDecrypt() {
-            const text = document.getElementById('vigenereInput').value;
-            const key = document.getElementById('vigenereKey').value;
+            // Defensive programming: Ensure DOM elements exist
+            const inputElement = document.getElementById('vigenereInput');
+            const keyElement = document.getElementById('vigenereKey');
+            
+            if (!inputElement || !keyElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Vigenère cipher input elements not found');
+                }
+                return;
+            }
+            
+            const text = inputElement.value;
+            const key = keyElement.value;
 
             // Validate inputs
             if (!text.trim()) {
@@ -582,7 +656,17 @@
             }
 
             const result = applyVigenereCipher(text, key, false);
-            document.getElementById('vigenereOutput').textContent = result;
+            
+            // Defensive programming: Ensure output element exists
+            const outputElement = document.getElementById('vigenereOutput');
+            if (!outputElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Vigenère cipher output element not found');
+                }
+                return;
+            }
+            
+            outputElement.textContent = result;
         }
 
         /**
@@ -624,7 +708,16 @@
          * Converts text to binary
          */
         function textToBinary() {
-            const text = document.getElementById('binaryTextInput').value;
+            // Defensive programming: Ensure DOM elements exist
+            const inputElement = document.getElementById('binaryTextInput');
+            if (!inputElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Binary text input element not found');
+                }
+                return;
+            }
+            
+            const text = inputElement.value;
 
             if (!text.trim()) {
                 showError('Please enter some text to convert to binary.');
@@ -636,14 +729,32 @@
                 return char.charCodeAt(0).toString(2).padStart(8, '0');
             }).join(' ');
 
-            document.getElementById('binaryOutput').textContent = binaryResult;
+            // Defensive programming: Ensure output element exists
+            const outputElement = document.getElementById('binaryOutput');
+            if (!outputElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Binary output element not found');
+                }
+                return;
+            }
+            
+            outputElement.textContent = binaryResult;
         }
 
         /**
          * Converts binary to text
          */
         function binaryToText() {
-            const binary = document.getElementById('binaryInput').value;
+            // Defensive programming: Ensure DOM elements exist
+            const inputElement = document.getElementById('binaryInput');
+            if (!inputElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Binary input element not found');
+                }
+                return;
+            }
+            
+            const binary = inputElement.value;
 
             if (!binary.trim()) {
                 showError('Please enter binary data to convert to text.');
@@ -672,7 +783,16 @@
                     return String.fromCharCode(charCode);
                 }).join('');
 
-                document.getElementById('binaryOutput').textContent = textResult;
+                // Defensive programming: Ensure output element exists
+                const outputElement = document.getElementById('binaryOutput');
+                if (!outputElement) {
+                    if (isDevelopmentMode()) {
+                        console.error('Binary output element not found');
+                    }
+                    return;
+                }
+                
+                outputElement.textContent = textResult;
             } catch (error) {
                 showError('Invalid binary format. Please ensure you have valid 8-bit binary groups.');
             }
@@ -684,7 +804,16 @@
          * Converts text to hexadecimal
          */
         function textToHex() {
-            const text = document.getElementById('hexTextInput').value;
+            // Defensive programming: Ensure DOM elements exist
+            const inputElement = document.getElementById('hexTextInput');
+            if (!inputElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Hex text input element not found');
+                }
+                return;
+            }
+            
+            const text = inputElement.value;
 
             if (!text.trim()) {
                 showError('Please enter some text to convert to hexadecimal.');
@@ -696,14 +825,32 @@
                 return char.charCodeAt(0).toString(16).toUpperCase().padStart(2, '0');
             }).join(' ');
 
-            document.getElementById('hexOutput').textContent = hexResult;
+            // Defensive programming: Ensure output element exists
+            const outputElement = document.getElementById('hexOutput');
+            if (!outputElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Hex output element not found');
+                }
+                return;
+            }
+            
+            outputElement.textContent = hexResult;
         }
 
         /**
          * Converts hexadecimal to text
          */
         function hexToText() {
-            const hex = document.getElementById('hexInput').value;
+            // Defensive programming: Ensure DOM elements exist
+            const inputElement = document.getElementById('hexInput');
+            if (!inputElement) {
+                if (isDevelopmentMode()) {
+                    console.error('Hex input element not found');
+                }
+                return;
+            }
+            
+            const hex = inputElement.value;
 
             if (!hex.trim()) {
                 showError('Please enter hexadecimal data to convert to text.');
@@ -732,7 +879,16 @@
                     return String.fromCharCode(charCode);
                 }).join('');
 
-                document.getElementById('hexOutput').textContent = textResult;
+                // Defensive programming: Ensure output element exists
+                const outputElement = document.getElementById('hexOutput');
+                if (!outputElement) {
+                    if (isDevelopmentMode()) {
+                        console.error('Hex output element not found');
+                    }
+                    return;
+                }
+                
+                outputElement.textContent = textResult;
             } catch (error) {
                 showError('Invalid hexadecimal format. Please ensure you have valid 2-digit hex pairs.');
             }
@@ -835,33 +991,6 @@
 
         // Note: Atbash input validation is now in shared module: window.AtbashCipher.isValidAtbashInput()
 
-        /**
-         * Demonstrates the Atbash cipher with example text
-         * Useful for testing and educational purposes (development only)
-         * @private - Only available in development environment
-         */
-        function demonstrateAtbash() {
-            // Only run in development environment
-            if (!isDevelopmentMode()) {
-                return;
-            }
-            
-            const examples = [
-                { input: 'HELLO WORLD', expected: 'SVOOL DLIOW' },
-                { input: 'ABC xyz', expected: 'ZYX cba' },
-                { input: 'The quick brown fox', expected: 'Gsv jfrxp yildm ulc' },
-                { input: '123 Test!', expected: '123 Gvhg!' }
-            ];
-
-            console.log('[Atbash Cipher Examples]');
-            examples.forEach(example => {
-                const result = window.AtbashCipher.applyAtbashCipher(example.input);
-                const passed = result === example.expected;
-                console.log(
-                    `Input: "${example.input}" → Output: "${result}" ${passed ? '✓' : '✗'}`
-                );
-            });
-        }
 
         // ===== EVENT LISTENERS =====
 
