@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Atbash Cipher Test</title>
+</head>
+<body>
+    <h1>Atbash Cipher Test Results</h1>
+    <div id="results"></div>
+    
+    <!-- Load shared Atbash cipher module -->
+    <script src="src/ciphers/atbash.js"></script>
+    
+    <script>
+        // Use shared Atbash cipher implementation to eliminate code duplication
+        const { applyAtbashCipher } = window.AtbashCipher;
+
+        // Test cases
+        const testCases = [
+            { input: 'HELLO WORLD', expected: 'SVOOL DLIOW' },
+            { input: 'ABC', expected: 'ZYX' },
+            { input: 'xyz', expected: 'cba' },
+            { input: 'The quick brown fox', expected: 'Gsv jfrxp yildm ulc' },
+            { input: '123 Test!', expected: '123 Gvhg!' },
+            { input: 'AaBbCc', expected: 'ZzYyXx' },
+            { input: 'Atbash Cipher', expected: 'Zgyzhs Xrksvi' },
+            // Test reversibility
+            { input: 'SVOOL DLIOW', expected: 'HELLO WORLD' },
+            { input: 'Zgyzhs', expected: 'Atbash' }
+        ];
+
+        // Run tests
+        let results = '<pre style="font-family: monospace; font-size: 14px;">';
+        let passCount = 0;
+        let failCount = 0;
+
+        testCases.forEach((test, index) => {
+            const result = applyAtbashCipher(test.input);
+            const passed = result === test.expected;
+            
+            if (passed) {
+                passCount++;
+                results += `✅ Test ${index + 1} PASSED\n`;
+            } else {
+                failCount++;
+                results += `❌ Test ${index + 1} FAILED\n`;
+            }
+            
+            results += `   Input:    "${test.input}"\n`;
+            results += `   Expected: "${test.expected}"\n`;
+            results += `   Got:      "${result}"\n\n`;
+        });
+
+        results += `\n========================================\n`;
+        results += `SUMMARY: ${passCount} passed, ${failCount} failed\n`;
+        results += `========================================\n`;
+
+        // Test double transformation (should return original)
+        results += '\n<strong>Reversibility Test:</strong>\n';
+        const original = 'Hello World 123!';
+        const encoded = applyAtbashCipher(original);
+        const decoded = applyAtbashCipher(encoded);
+        results += `Original: "${original}"\n`;
+        results += `Encoded:  "${encoded}"\n`;
+        results += `Decoded:  "${decoded}"\n`;
+        results += `Reversible: ${original === decoded ? '✅ YES' : '❌ NO'}\n`;
+
+        results += '</pre>';
+        
+        document.getElementById('results').innerHTML = results;
+        
+        // Also log to console
+        console.log('Atbash Cipher Test Complete');
+        console.log(`Tests Passed: ${passCount}/${testCases.length}`);
+    </script>
+</body>
+</html>
