@@ -211,8 +211,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**⚡ Built with passion for cryptography and cyberpunk aesthetics ⚡**
-
 [🌟 Star this repo](https://github.com/yourusername/subcoder-cipher-matrix) | [🔗 Share with friends](https://twitter.com/intent/tweet?text=Check%20out%20this%20amazing%20cipher%20tool!&url=https://github.com/yourusername/subcoder-cipher-matrix) | [☕ Buy me a coffee](https://buymeacoffee.com/yourusername)
 
 </div>
